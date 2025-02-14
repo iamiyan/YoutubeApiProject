@@ -1,0 +1,91 @@
+﻿@model List<YouTubeApiProject.Models.YouTubeVideoModel>
+
+<form method="post" asp-controller="YouTube" asp-action="Search" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; margin-bottom: 20px; padding: 10px; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <input id="inputDefault" class="form-control" type="search" name="query" placeholder="Search YouTube..." required style="flex: 1; min-width: 250px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <label for="duration" style="margin-bottom: 0; font-weight: bold;">Duration:</label>
+        <select name="duration" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px; cursor: pointer;">
+            <option value="">Any</option>
+            <option value="short">Short (0-4 min)</option>
+            <option value="medium">Medium (4-20 min)</option>
+            <option value="long">Long (20+ min)</option>
+        </select>
+
+        <label for="uploadDate" style="margin-bottom: 0; font-weight: bold;">Uploaded:</label>
+        <select name="uploadDate" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px; cursor: pointer;">
+            <option value="">Any</option>
+            <option value="today">Today</option>
+            <option value="this_week">This Week</option>
+            <option value="this_month">This Month</option>
+            <option value="this_year">This Year</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">
+        🔍 Search
+    </button>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 20px;">
+        @foreach (var video in Model)
+        {
+            <div style="width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px; overflow: hidden; background-color: #fff; transition: transform 0.3s;">
+                <a href="@video.VideoUrl" target="_blank" style="text-decoration: none;">
+                    <img src="@video.ThumbnailUrl" alt="@video.Title" style="width: 100%; height: 180px; object-fit: cover;" />
+                </a>
+                <div style="padding: 15px; text-align: center;">
+                    <a href="@video.VideoUrl" target="_blank" style="text-decoration: none; color: #007bff;">
+                        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">@video.Title</h3>
+                    </a>
+                    <p style="color: #666; font-size: 14px; margin: 5px 0;">
+                        <i class="fa fa-calendar" aria-hidden="true"></i> Uploaded: @video.FormattedDateUpload
+                    </p>
+                    <p style="color: red; font-weight: bold; font-size: 14px; margin: 5px 0;">
+                        <i class="fa fa-clock" aria-hidden="true"></i> Duration: @video.FormattedDuration
+                    </p>
+
+                    <a href="@video.VideoUrl" target="_blank">
+                        <button class="btn btn-primary" type="button" style="padding: 8px 16px; background-color: #ff0000; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">
+                            ▶ Watch Video
+                        </button>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
+        @if (ViewBag.PrevPageToken != null)
+        {
+            <form method="post" asp-controller="YouTube" asp-action="Search" style="display: inline;">
+                <input type="hidden" name="query" value="@ViewBag.Query" />
+                <input type="hidden" name="duration" value="@ViewBag.Duration" />
+                <input type="hidden" name="uploadDate" value="@ViewBag.UploadDate" />
+                <input type="hidden" name="pageToken" value="@ViewBag.PrevPageToken" />
+                <button type="submit" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px; transition: background-color 0.3s;">
+                    ⬅ Previous Page
+                </button>
+            </form>
+        }
+
+        @if (ViewBag.NextPageToken != null)
+        {
+            <form method="post" asp-controller="YouTube" asp-action="Search" style="display: inline;">
+                <input type="hidden" name="query" value="@ViewBag.Query" />
+                <input type="hidden" name="duration" value="@ViewBag.Duration" />
+                <input type="hidden" name="uploadDate" value="@ViewBag.UploadDate" />
+                <input type="hidden" name="pageToken" value="@ViewBag.NextPageToken" />
+                <button type="submit" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px; transition: background-color 0.3s;">
+                    Next Page ➡
+                </button>
+            </form>
+        }
+    </div>
+}
+else
+{
+    <p class="text-center" style="color: red; font-weight: bold; margin-top: 20px;">No videos found.</p>
+}

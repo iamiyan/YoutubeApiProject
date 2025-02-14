@@ -1,0 +1,75 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+/* Default Button */
+.default-btn {
+    background-color: #ffffff;
+    color: #333333;
+    border: 1px solid #dcdcdc;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+    /* Hover Effect */
+    .default-btn:hover {
+        background-color: #e6f0ff;
+        color: #338af3;
+        box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+/* Active Button */
+.active-btn {
+    background-color: #338af3;
+    color: #ffffff;
+    border: 1px solid #2a6bc0;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+    .active-btn:hover {
+        background-color: #2765b0;
+        color: #ffffff;
+    }
+
+/* Ensure full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Allow content to push the footer down */
+.main-content {
+    flex: 1;
+}
+
+/* Footer Styling */
+.footer {
+    border-top: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: center;
+    background: #f8f9fa;
+}
+
